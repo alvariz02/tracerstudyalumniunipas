@@ -283,16 +283,16 @@ export default function FormPage() {
             </p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+            {/* <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Progress</p>
               <p className="mt-2 text-3xl font-semibold text-slate-900">{progress}%</p>
               <p className="mt-1 text-sm text-slate-500">Formulir yang sudah Anda isi.</p>
-            </div>
-            <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+            </div> */}
+            {/* <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Tujuan</p>
               <p className="mt-2 text-3xl font-semibold text-slate-900">Data Alumni Terpercaya</p>
               <p className="mt-1 text-sm text-slate-500">Form akan direset otomatis setelah berhasil dikirim.</p>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>

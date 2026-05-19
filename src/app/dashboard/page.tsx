@@ -270,32 +270,137 @@ export default function DashboardPage() {
 
   // Export CSV
   const handleExportCSV = () => {
-    if (responses.length === 0) return;
+    const exportRows = filteredAndSortedResponses.length > 0 ? filteredAndSortedResponses : responses;
+    if (exportRows.length === 0) return;
 
-    // Build headers from a subset of fields
-    const headers = ['NIM', 'Nama', 'Tahun Lulus', 'Fakultas', 'Prodi', 'Status', 'Pendapatan', 'Waktu Tunggu', 'Kesesuaian Bidang'];
-    const rows = responses.map(r => [
+    const headers = [
+      'id',
+      'created_at',
+      'nim',
+      'nama',
+      'tahun_lulus',
+      'fakultas',
+      'prodi',
+      'p1_status',
+      'p2_sertifikasi',
+      'p3_waktu_tunggu',
+      'p4_pendapatan',
+      'p5_lokasi_negara',
+      'p5a_lokasi_provinsi',
+      'p5b_lokasi_kabupaten',
+      'p6_jenis_perusahaan',
+      'p7_level_perusahaan',
+      'p8a_nama_perusahaan',
+      'p8b_alamat_perusahaan',
+      'p9_posisi_wiraswasta',
+      'p10a_sumber_biaya_studi',
+      'p10b_perguruantinggi_studi',
+      'p10c_prodi_studi',
+      'p10d_tanggal_masuk_studi',
+      'p11_hubungan_studi_pekerjaan',
+      'p12_tingkat_pendidikan_sesuai',
+      'p13_sumber_dana_kuliah',
+      'p13a_sumber_dana_kuliah_lainnya',
+      'p14a_etika',
+      'p14a_keahlian_ilmu',
+      'p14a_bahasa_inggris',
+      'p14a_teknologi_informasi',
+      'p14a_komunikasi',
+      'p14a_kerja_sama_tim',
+      'p14a_pengembangan',
+      'p14b_etika',
+      'p14b_keahlian_ilmu',
+      'p14b_bahasa_inggris',
+      'p14b_teknologi_informasi',
+      'p14b_komunikasi',
+      'p14b_kerja_sama_tim',
+      'p14b_pengembangan',
+      'p15_perkuliahan',
+      'p15_demonstrasi',
+      'p15_proyek_riset',
+      'p15_magang',
+      'p15_praktikum',
+      'p15_kerja_lapangan',
+      'p16_mulai_cari_kerja',
+      'p17_cara_cari_kerja',
+      'p17m_cara_cari_kerja_lainnya',
+      'p18_jumlah_lamaran',
+      'p19_jumlah_respon',
+      'p20_jumlah_wawancara',
+      'p21_kesesuaian_bidang',
+      'p22_alasan_tidak_sesuai',
+      'p22a_alasan_tidak_sesuai_lainnya'
+    ];
+
+    const rows = exportRows.map(r => [
+      r.id ?? '',
+      r.created_at ?? '',
       r.nim,
       r.nama,
       r.tahun_lulus,
       r.fakultas,
       r.prodi,
       r.p1_status,
-      r.p4_pendapatan || 0,
-      r.p3_waktu_tunggu || '-',
-      r.p21_kesesuaian_bidang || '-'
+      r.p2_sertifikasi ?? '',
+      r.p3_waktu_tunggu ?? '',
+      r.p4_pendapatan ?? '',
+      r.p5_lokasi_negara ?? '',
+      r.p5a_lokasi_provinsi ?? '',
+      r.p5b_lokasi_kabupaten ?? '',
+      r.p6_jenis_perusahaan ?? '',
+      r.p7_level_perusahaan ?? '',
+      r.p8a_nama_perusahaan ?? '',
+      r.p8b_alamat_perusahaan ?? '',
+      r.p9_posisi_wiraswasta ?? '',
+      r.p10a_sumber_biaya_studi ?? '',
+      r.p10b_perguruantinggi_studi ?? '',
+      r.p10c_prodi_studi ?? '',
+      r.p10d_tanggal_masuk_studi ?? '',
+      r.p11_hubungan_studi_pekerjaan,
+      r.p12_tingkat_pendidikan_sesuai,
+      r.p13_sumber_dana_kuliah ?? '',
+      r.p13a_sumber_dana_kuliah_lainnya ?? '',
+      r.p14a_etika ?? '',
+      r.p14a_keahlian_ilmu ?? '',
+      r.p14a_bahasa_inggris ?? '',
+      r.p14a_teknologi_informasi ?? '',
+      r.p14a_komunikasi ?? '',
+      r.p14a_kerja_sama_tim ?? '',
+      r.p14a_pengembangan ?? '',
+      r.p14b_etika ?? '',
+      r.p14b_keahlian_ilmu ?? '',
+      r.p14b_bahasa_inggris ?? '',
+      r.p14b_teknologi_informasi ?? '',
+      r.p14b_komunikasi ?? '',
+      r.p14b_kerja_sama_tim ?? '',
+      r.p14b_pengembangan ?? '',
+      r.p15_perkuliahan ?? '',
+      r.p15_demonstrasi ?? '',
+      r.p15_proyek_riset ?? '',
+      r.p15_magang ?? '',
+      r.p15_praktikum ?? '',
+      r.p15_kerja_lapangan ?? '',
+      r.p16_mulai_cari_kerja ?? '',
+      Array.isArray(r.p17_cara_cari_kerja) ? r.p17_cara_cari_kerja.join('; ') : r.p17_cara_cari_kerja ?? '',
+      r.p17m_cara_cari_kerja_lainnya ?? '',
+      r.p18_jumlah_lamaran ?? '',
+      r.p19_jumlah_respon ?? '',
+      r.p20_jumlah_wawancara ?? '',
+      r.p21_kesesuaian_bidang ?? '',
+      r.p22_alasan_tidak_sesuai ?? '',
+      r.p22a_alasan_tidak_sesuai_lainnya ?? ''
     ]);
 
-    const csvContent = "data:text/csv;charset=utf-8," 
-      + [headers.join(','), ...rows.map(e => e.map(val => `"${val}"`).join(','))].join('\n');
-    
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `Tracer_Study_UNIPAS_${new Date().toISOString().split('T')[0]}.csv`);
+    const csvBody = [headers.join(','), ...rows.map(e => e.map(val => `"${String(val).replace(/"/g, '""')}"`).join(','))].join('\n');
+    const blob = new Blob([csvBody], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `Tracer_Study_UNIPAS_${new Date().toISOString().split('T')[0]}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   const handleCopyEnv = () => {
@@ -328,7 +433,7 @@ export default function DashboardPage() {
               <div className="rounded-3xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-700 shadow-sm">
                 2. Tambahkan <span className="font-semibold text-slate-900">.env.local</span>
               </div>
-              <Button variant="secondary" className="h-11 rounded-full px-4 py-2 text-sm">
+              <Button onClick={handleCopyEnv} variant="secondary" className="h-11 rounded-full px-4 py-2 text-sm">
                 {isCopied ? 'Tersalin!' : 'Salin Variabel .env'}
               </Button>
             </div>
@@ -345,10 +450,10 @@ export default function DashboardPage() {
               Ringkasan hasil Tracer Study, keterserapan kerja, relevansi kompetensi, dan data responden alumni.
             </p>
           </div>
-          <Button onClick={handleExportCSV} className="inline-flex items-center gap-2">
+          {/* <Button onClick={handleExportCSV} className="inline-flex items-center gap-2">
             <Download size={18} />
             Ekspor CSV
-          </Button>
+          </Button> */}
         </div>
       </Card>
 
@@ -513,7 +618,7 @@ export default function DashboardPage() {
           </div>
           <Button onClick={handleExportCSV} variant="secondary" className="h-11 rounded-full px-4 py-2 text-sm inline-flex items-center gap-2">
             <Download size={18} />
-            {isCopied ? 'Tersalin!' : 'Ekspor CSV'}
+            Ekspor CSV
           </Button>
         </div>
 
