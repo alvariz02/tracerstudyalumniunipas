@@ -111,9 +111,9 @@ export const TINGKAT_PENDIDIKAN_SESUAI_OPTIONS = [
 
 export const SUMBER_DANA_KULIAH_OPTIONS = [
   "Biaya Sendiri",
-  "Beasiswa Bidikmisi",
-  "Beasiswa ADIK",
-  "Beasiswa KJMU",
+  "Beasiswa KIP Kuliah",
+  "Beasiswa Pemda Morotai",
+  "Beasiswa Maluku Utara Bangkit",
   "Beasiswa Perusahaan",
   "Lainnya"
 ];
