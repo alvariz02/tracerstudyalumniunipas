@@ -52,7 +52,7 @@ export const FAKULTAS_LIST: Fakultas[] = [
   }
 ];
 
-export const TAHUN_LULUS_OPTIONS = [2020, 2021, 2022, 2023, 2024, 2025, 2026];
+export const TAHUN_LULUS_OPTIONS = [2016,2017,2018,2019,2020, 2021, 2022, 2023, 2024, 2025, 2026];
 
 export const STATUS_ALUMNI_OPTIONS = [
   "Bekerja (full time/part time)",
